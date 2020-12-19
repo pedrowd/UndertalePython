@@ -2,6 +2,7 @@ import pygame
 import os
 pygame.init()
 
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (300, -50)
 
 win = pygame.display.set_mode((800,800))
 bulletSound = pygame.mixer.Sound(os.path.join('music','Yellow SOUL shoot.wav'))
@@ -173,11 +174,13 @@ class purple:
 class green:
     def __init__(self,width,height):
         self.x = 375
-        self.y = 375
+        self.y = 345
         self.width = width
         self.height = height
         self.vel = 6
-        self.protection = pygame.image.load(os.path.join('images','tree.png'))
+        self.protectionH = pygame.image.load(os.path.join('images','green_protection.png'))
+        self.protectionV = pygame.transform.rotate(self.protectionH, 90)
+        self.protection = self.protectionH
         self.heart = pygame.image.load(os.path.join('images','green.png'))
         self.music = pygame.mixer.music.load(os.path.join('music','spear_of_justice.mp3'))
     def draw(self,win):
@@ -187,15 +190,21 @@ class green:
     def move(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            self.x = 300
+            self.x = 350
             self.y = 375
+            self.protection = self.protectionV
         if keys[pygame.K_RIGHT] and self.x < 600 - self.width - self.vel:
             self.x = 450
             self.y = 375
+            self.protection = self.protectionV
         if keys[pygame.K_UP] and self.y > 200 + self.vel:
-            self.y -= self.vel
+            self.x = 375
+            self.y = 345
+            self.protection = self.protectionH
         if keys[pygame.K_DOWN] and self.y < 600 - self.height - self.vel:
-            self.y += self.vel
+            self.x = 375
+            self.y = 455
+            self.protection = self.protectionH
 
 
 class tree:
