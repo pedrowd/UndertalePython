@@ -170,6 +170,56 @@ class purple:
             shootloop = 1
 
 
+class green:
+    def __init__(self,width,height):
+        self.x = 375
+        self.y = 375
+        self.width = width
+        self.height = height
+        self.vel = 6
+        self.protection = pygame.image.load(os.path.join('images','tree.png'))
+        self.heart = pygame.image.load(os.path.join('images','green.png'))
+        self.music = pygame.mixer.music.load(os.path.join('music','spear_of_justice.mp3'))
+    def draw(self,win):
+        win.blit(self.heart,(375,375))
+        win.blit(self.protection,(self.x,self.y))
+
+    def move(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.x = 300
+            self.y = 375
+        if keys[pygame.K_RIGHT] and self.x < 600 - self.width - self.vel:
+            self.x = 450
+            self.y = 375
+        if keys[pygame.K_UP] and self.y > 200 + self.vel:
+            self.y -= self.vel
+        if keys[pygame.K_DOWN] and self.y < 600 - self.height - self.vel:
+            self.y += self.vel
+
+
+class tree:
+    def __init__(self,width,height):
+        self.x = 375
+        self.y = 375
+        self.width = width
+        self.height = height
+        self.vel = 6
+        self.heart = pygame.image.load(os.path.join('images','tree.png'))
+        self.music = pygame.mixer.music.load(os.path.join('music','bone-trouble.mp3'))
+    def draw(self,win):
+        win.blit(self.heart,(self.x,self.y))
+
+    def move(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] and self.x > 200 + self.vel:
+            self.x -= self.vel
+        if keys[pygame.K_RIGHT] and self.x < 600 - self.width - self.vel:
+            self.x += self.vel
+        if keys[pygame.K_UP] and self.y > 200 + self.vel:
+            self.y -= self.vel
+        if keys[pygame.K_DOWN] and self.y < 600 - self.height - self.vel:
+            self.y += self.vel
 
 def redrawGameWindow():
     win.fill((0,0,0))
@@ -232,7 +282,13 @@ while run:
         muffet = True
         mettaton = False
         frisk = purple(50, 50)
-
+    if keys[pygame.K_5]:
+        pygame.mixer.stop()
+        flagM = 1
+        bullets = []
+        muffet = False
+        mettaton = True
+        frisk = green(50, 50)
     if flagM == 1:
         music = frisk.music
         pygame.mixer.music.play(-1)
